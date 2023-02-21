@@ -2,10 +2,10 @@ import { io } from "socket.io-client";
 import { hrtime } from "process";
 
 const URL = process.env.URL || "http://localhost:3000";
-const MAX_CLIENTS = 100;
-const PING_INTERVAL = 1000;
-const POLLING_PERCENTAGE = 0.05;
-const CLIENT_CREATION_INTERVAL_IN_MS = 5;
+const MAX_CLIENTS = 1000;// 当前最大客户端数量
+const PING_INTERVAL = 1000;// 多少毫秒执行一次，当前是一秒
+const POLLING_PERCENTAGE = 0.05;// 控制是否为polling
+const CLIENT_CREATION_INTERVAL_IN_MS = 5;// 间隔多久创建一个实例
 
 let clientCount = 0;
 
