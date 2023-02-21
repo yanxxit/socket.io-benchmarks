@@ -26,7 +26,7 @@ const createClient = () => {
   setInterval(() => {
     const start = hrtime.bigint();
     socket.emit("ping", () => {
-      const duration = (hrtime.bigint() - start) / 2n; // in nanoseconds
+      const duration = (hrtime.bigint() - start) / 2n; // in nanoseconds 纳秒
       latency.sum += Number(duration) / 1000;
       latency.count++;
     });
