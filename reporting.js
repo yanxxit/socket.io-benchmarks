@@ -5,7 +5,8 @@ import * as fs from "fs";
 
 // let file_name = `report.ws.csv`
 // let file_name = `report.eiows.csv`
-let file_name = `report.uws.csv`
+let file_name = `report.${process.env.report_type}.csv`
+console.log("----->>>", file_name)
 // let file_name = `report.plain_ws.csv`
 fs.writeFileSync(file_name, ["created", "size", "rss", "heapUsed", "heapTotal"].join(",") + "\n")
 const printStats = (io, type = "default") => {

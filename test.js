@@ -11,18 +11,19 @@ async function createServer(type) {
   if (type === "ws") job_file = './server-default.js';
   if (type === "eiows") job_file = './server-eiows.js';
   if (type === "uws") job_file = './server-uws.js';
+  process.env.report_type = type;
 
   let fk = child_process.spawn('node', ['--expose-gc', job_file]);
   fk.stdout.on('data', (data) => {
-    console.log(`stdout: ${data}`);
+    console.log(`${type}. stdout: ${data}`);
   });
 
   fk.stderr.on('data', (data) => {
-    console.error(`stderr: ${data}`);
+    console.error(`${type}. stderr: ${data}`);
   });
 
   fk.on('close', (code, signal) => {
-    console.log(`子进程退出，退出码 ${code},${signal}`);
+    console.log(`${type}. 子进程退出，退出码 ${code},${signal}`);
   });
 
   return fk
@@ -43,7 +44,7 @@ async function createClient(num, type) {
 
   fk.on('close', (code, signal) => {
     console.log(
-      `child process terminated due to receipt of signal ${signal}`);
+      `${type}. 客户端关闭（${num}） signal ${signal}`);
   });
   await setTimeout(1000 * EXEC_TIME)
   fk.kill();
@@ -52,8 +53,8 @@ async function createClient(num, type) {
 let MAX_CLIENTS = getMaxClients();
 
 function getMaxClients() {
-  let nums = []
-  let step = 200;
+  let nums = [0];
+  let step = 100;
   // let MAX = 10000
   let MAX = 1000
   for (let i = 1; (i * step) <= MAX; i++) {
@@ -65,7 +66,6 @@ function getMaxClients() {
 console.log(MAX_CLIENTS)
 
 var format = function (bytes) {
-  // return (bytes / 1024 / 1024).toFixed(2) + ' MB';
   return Number((bytes / 1024 / 1024).toFixed(2));
 };
 
@@ -117,7 +117,7 @@ async function dealReport(type = "ws") {
     obj[m.size].sum += Number(m.rss);
     // console.log(m.size, format(m.rss), format(m.heapUsed), format(m.heapTotal))
   }
-  exportJSON[type] = []
+  exportJSON[type] = [0]
   for (const key in obj) {
     if (MAX_CLIENTS.includes(Number(key))) {
       let m = obj[key]
@@ -145,9 +145,12 @@ async function main() {
     let fk = await createServer(type)
     // 启动客户端测试
     for (const m of MAX_CLIENTS) {
-      await createClient(m, type)
+      if (m > 0) {
+        await createClient(m, type)
+      }
     }
     fk.kill();
+    await setTimeout(1000)
     // 抽取数据
     await dealReport(type)
   }

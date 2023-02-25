@@ -1,7 +1,7 @@
 import { io } from "socket.io-client";
 import { hrtime } from "process";
 import dayjs from "dayjs";
-console.log("----=====process.MAX_CLIENTS", process.env.MAX_CLIENTS)
+console.log("=====> process.MAX_CLIENTS", process.env.MAX_CLIENTS)
 
 const URL = process.env.URL || "http://localhost:3000";
 const MAX_CLIENTS = process.env.MAX_CLIENTS || 100;// 当前最大客户端数量 

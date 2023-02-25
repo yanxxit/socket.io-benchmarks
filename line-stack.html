@@ -30,7 +30,7 @@
   <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=YOUR_API_KEY"></script>
   <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.1/dist/extension/bmap.min.js"></script>
   -->
-  <script src="./report.data.js"></script>
+  <script src="./report.data.js?v=2"></script>
   <script type="text/javascript">
     var dom = document.getElementById('container');
     var myChart = echarts.init(dom, null, {
@@ -43,7 +43,7 @@
 
     option = {
       title: {
-        text: 'Memory usage per Webscoket server implementation',
+        text: 'Memory usage per',
       },
       tooltip: {
         trigger: 'axis'
