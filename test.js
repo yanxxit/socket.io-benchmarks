@@ -112,16 +112,21 @@ async function dealReport(type = "ws") {
   // heapUsed 已使用堆栈 heapTotal和heapUsed指的是V8的内存使用量。
   // heapTotal 总使用堆栈
   for (const m of records) {
+    m.size = (m.size / 10).toFixed(0) * 10
     if (!obj[m.size]) obj[m.size] = { count: 0, sum: 0 };
     obj[m.size].count++;
     obj[m.size].sum += Number(m.rss);
     // console.log(m.size, format(m.rss), format(m.heapUsed), format(m.heapTotal))
   }
   exportJSON[type] = [0]
+  // exportJSON[type + "_map"] = [{ key: 0, total: 0 }]
+  exportJSON[type + "_map"] = [""]
   for (const key in obj) {
     if (MAX_CLIENTS.includes(Number(key))) {
       let m = obj[key]
       exportJSON[type].push(format((m.sum / m.count)))
+      // exportJSON[type + "_map"].push({ key, total: format((m.sum / m.count)) })
+      exportJSON[type + "_map"].push(key + "个连接，占用内存：" + format((m.sum / m.count)) + "MB")
     }
   }
 
@@ -142,15 +147,15 @@ async function main() {
   ];
   for (const type of types) {
     // 开启服务
-    let fk = await createServer(type)
-    // 启动客户端测试
-    for (const m of MAX_CLIENTS) {
-      if (m > 0) {
-        await createClient(m, type)
-      }
-    }
-    fk.kill();
-    await setTimeout(1000)
+    // let fk = await createServer(type)
+    // // 启动客户端测试
+    // for (const m of MAX_CLIENTS) {
+    //   if (m > 0) {
+    //     await createClient(m, type)
+    //   }
+    // }
+    // fk.kill();
+    // await setTimeout(1000)
     // 抽取数据
     await dealReport(type)
   }

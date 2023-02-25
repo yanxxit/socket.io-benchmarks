@@ -30,7 +30,7 @@
   <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=YOUR_API_KEY"></script>
   <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.1/dist/extension/bmap.min.js"></script>
   -->
-  <script src="./report.data.js?v=2"></script>
+  <script src="./report.data.js?v=4"></script>
   <script type="text/javascript">
     var dom = document.getElementById('container');
     var myChart = echarts.init(dom, null, {
@@ -49,7 +49,7 @@
         trigger: 'axis'
       },
       legend: {
-        data: ['Default implementation', 'Socket.IO with eiows', 'Socket.IO with uws', 'Plain Websocket server']
+        data: ['Default', 'eiows', 'uws', 'Websocket']
       },
       grid: {
         left: '3%',
@@ -72,31 +72,33 @@
         type: 'value'
       },
       series: [
-        {
-          name: 'Default implementatio',
+      {
+          name: 'Websocket',
           type: 'line',
           stack: 'Total',
-          // data: [120, 132, 101, 134, 90, 230, 210],// 对应事件节点的值
-          data: report.ws,// 对应事件节点的值
+          data: report.plain_ws
         },
         {
-          name: 'Socket.IO with eiows',
-          type: 'line',
-          stack: 'Total',
-          data: report.eiows
-        },
-        {
-          name: 'Socket.IO with uws',
+          name: 'uws',
           type: 'line',
           stack: 'Total',
           data: report.uws
         },
         {
-          name: 'Plain Websocket server',
+          name: 'eiows',
           type: 'line',
           stack: 'Total',
-          data: report.plain_ws
+          data: report.eiows
         },
+        {
+          name: 'Default',
+          type: 'line',
+          stack: 'Total',
+          // data: [120, 132, 101, 134, 90, 230, 210],// 对应事件节点的值
+          data: report.ws,// 对应事件节点的值
+        },
+        
+        
       ]
     };
 
