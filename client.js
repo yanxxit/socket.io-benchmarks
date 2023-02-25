@@ -1,5 +1,6 @@
 import { io } from "socket.io-client";
 import { hrtime } from "process";
+import dayjs from "dayjs";
 
 const URL = process.env.URL || "http://localhost:3000";
 const MAX_CLIENTS = 100;// 当前最大客户端数量 
@@ -47,7 +48,11 @@ const printReport = () => {
   const meanLatency = Math.floor(latency.sum / latency.count);
   latency.sum = latency.count = 0;
 
-  const values = [new Date().toISOString(), clientCount, meanLatency];
+  const values = [
+    // new Date().toISOString(),
+    dayjs().format("YYYY-MM-DD HH:mm:ss"),
+    clientCount,
+    meanLatency];
 
   console.log(values.join(";"));
 };

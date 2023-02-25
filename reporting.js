@@ -1,12 +1,18 @@
 import { memoryUsage } from "process";
 import * as path from "path";
+import dayjs from "dayjs";
 import * as fs from "fs";
-fs.writeFileSync(`report.server.default.csv`, ["created", "size", "rss", "heapUsed", "heapTotal"].join(",") + "\n")
+
+// let file_name = `report.ws.csv`
+// let file_name = `report.eiows.csv`
+let file_name = `report.uws.csv`
+// let file_name = `report.plain_ws.csv`
+fs.writeFileSync(file_name, ["created", "size", "rss", "heapUsed", "heapTotal"].join(",") + "\n")
 const printStats = (io, type = "default") => {
   const { rss, heapUsed, heapTotal } = memoryUsage();
-  let file_name = `report.server.default.csv`
   const values = [
-    Date.now(),// 日期
+    // Date.now(),// 日期
+    dayjs().format("YYYY-MM-DD HH:mm:ss"),// 日期
     io.sockets.sockets.size,// 当前连接数
     rss, // in bytes
     heapUsed, // in bytes

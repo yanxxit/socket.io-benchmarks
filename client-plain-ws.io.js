@@ -1,8 +1,10 @@
 import WebSocket from "ws";
 import { hrtime } from "process";
+import dayjs from "dayjs";
+console.log("----=====process.MAX_CLIENTS", process.env.MAX_CLIENTS)
 
 const URL = process.env.URL || "ws://localhost:3000";
-const MAX_CLIENTS = 10000;
+const MAX_CLIENTS = process.env.MAX_CLIENTS || 10000;
 const PING_INTERVAL = 1000;
 const CLIENT_CREATION_INTERVAL_IN_MS = 5;
 
@@ -25,7 +27,7 @@ const createClient = () => {
     });
   }, PING_INTERVAL);
 
-  ws.on("error", () => {});
+  ws.on("error", () => { });
 
   ws.on("close", (reason) => {
     console.log(`disconnect due to ${reason}`);
@@ -42,7 +44,11 @@ const printReport = () => {
   const meanLatency = Math.floor(latency.sum / latency.count);
   latency.sum = latency.count = 0;
 
-  const values = [new Date().toISOString(), clientCount, meanLatency];
+  const values = [
+    // new Date().toISOString(), 
+    dayjs().format("YYYY-MM-DD HH:mm:ss"),
+    clientCount,
+    meanLatency];
 
   console.log(values.join(";"));
 };
