@@ -3,7 +3,7 @@ import { setTimeout } from "timers/promises";
 import { parse } from "csv-parse/sync";
 import * as fs from "fs";
 
-const EXEC_TIME = 30;
+const EXEC_TIME = 60;
 
 async function createServer(type) {
   let job_file = "";
@@ -55,7 +55,7 @@ let MAX_CLIENTS = getMaxClients();
 function getMaxClients() {
   let nums = [0];
   let step = 200;
-  let MAX = 10000
+  let MAX = 5000
   // let MAX = 1000
   for (let i = 1; (i * step) <= MAX; i++) {
     nums.push(i * step)
@@ -112,7 +112,7 @@ async function dealReport(type = "ws") {
   // heapUsed 已使用堆栈 heapTotal和heapUsed指的是V8的内存使用量。
   // heapTotal 总使用堆栈
   for (const m of records) {
-    m.size = (m.size / 10).toFixed(0) * 10
+    m.size = (m.size / 10).toFixed(0) * 10;
     if (!obj[m.size]) obj[m.size] = { count: 0, sum: 0 };
     obj[m.size].count++;
     obj[m.size].sum += Number(m.rss);
