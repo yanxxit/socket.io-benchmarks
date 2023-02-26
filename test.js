@@ -54,9 +54,9 @@ let MAX_CLIENTS = getMaxClients();
 
 function getMaxClients() {
   let nums = [0];
-  let step = 100;
-  // let MAX = 10000
-  let MAX = 1000
+  let step = 200;
+  let MAX = 10000
+  // let MAX = 1000
   for (let i = 1; (i * step) <= MAX; i++) {
     nums.push(i * step)
   }
@@ -147,15 +147,15 @@ async function main() {
   ];
   for (const type of types) {
     // 开启服务
-    // let fk = await createServer(type)
-    // // 启动客户端测试
-    // for (const m of MAX_CLIENTS) {
-    //   if (m > 0) {
-    //     await createClient(m, type)
-    //   }
-    // }
-    // fk.kill();
-    // await setTimeout(1000)
+    let fk = await createServer(type)
+    // 启动客户端测试
+    for (const m of MAX_CLIENTS) {
+      if (m > 0) {
+        await createClient(m, type)
+      }
+    }
+    fk.kill();
+    await setTimeout(100)
     // 抽取数据
     await dealReport(type)
   }

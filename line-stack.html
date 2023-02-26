@@ -12,7 +12,8 @@
   <div id="container" style="height: 100%"></div>
 
 
-  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.1/dist/echarts.min.js"></script>
+  <!-- <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.1/dist/echarts.min.js"></script> -->
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.0.0/dist/echarts.min.js"></script>
   <!-- Uncomment this line if you want to dataTool extension
   <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.1/dist/extension/dataTool.min.js"></script>
   -->
@@ -57,11 +58,11 @@
         bottom: '3%',
         containLabel: true
       },
-      toolbox: {
-        feature: {
-          saveAsImage: {}
-        }
-      },
+      // toolbox: {
+      //   feature: {
+      //     saveAsImage: {}
+      //   }
+      // },
       xAxis: {
         type: 'category',
         boundaryGap: false,
@@ -72,33 +73,36 @@
         type: 'value'
       },
       series: [
-      {
-          name: 'Websocket',
-          type: 'line',
-          stack: 'Total',
-          data: report.plain_ws
-        },
         {
-          name: 'uws',
+          name: 'Default',
           type: 'line',
-          stack: 'Total',
-          data: report.uws
+          // stack: 'Total',
+          // stack: 'x',
+          color: "blue",
+          // data: [120, 132, 101, 134, 90, 230, 210],// 对应事件节点的值
+          data: report.ws,// 对应事件节点的值
         },
         {
           name: 'eiows',
           type: 'line',
-          stack: 'Total',
+          // stack: 'x',
+          color: "black",
           data: report.eiows
         },
         {
-          name: 'Default',
+          name: 'uws',
           type: 'line',
-          stack: 'Total',
-          // data: [120, 132, 101, 134, 90, 230, 210],// 对应事件节点的值
-          data: report.ws,// 对应事件节点的值
+          // stack: 'x',
+          color: "green",
+          data: report.uws
         },
-        
-        
+        {
+          name: 'Websocket',
+          type: 'line',
+          // stack: 'x',
+          color: "red",
+          data: report.plain_ws
+        },
       ]
     };
 
